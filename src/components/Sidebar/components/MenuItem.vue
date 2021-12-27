@@ -1,5 +1,5 @@
 <template>
-  <div class="shiyu-menuitem-box">
+  <div class="shiyu-menuitem-box" :class="{'shiyu-hide': !sidebarIsOpen}">
     <div class="shiyu-menuitem-box-scroll">
       <div v-for="(menu, index) in menuItem" :key="index">
         <router-link
@@ -45,7 +45,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      sidebarIsOpenState: 'Setting/sidebarIsOpenState'
+      sidebarIsOpen: 'Setting/sidebarIsOpen'
     })
   },
   watch: {
@@ -169,5 +169,19 @@ export default {
   -moz-transition: all 0.5s ease; /* Firefox 4 */
   -webkit-transition: all 0.5s ease; /* Safari and Chrome */
   -o-transition: all 0.5s ease; /* Opera */
+}
+span {
+  white-space: nowrap;
+  overflow: hidden;
+}
+.shiyu-hide{
+  .el-icon-arrow-right, span{
+    display: none !important;
+  }
+}
+.shiyu-hide:hover {
+  .el-icon-arrow-right, span{
+    display: inline !important;
+  }
 }
 </style>

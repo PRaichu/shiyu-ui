@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div ref="shiyu-sidebar" class="shiyu-sidebar" :class="{'shiyu-sidebar-hover': !sidebarIsOpen}">
+    <div ref="shiyu-sidebar" class="shiyu-sidebar" :class="{'shiyu-sidebar-hover': !sidebarIsOpen, 'shiyu-hide': !sidebarIsOpen}">
       <div class="shiyu-sidebar-top">
         <router-link to="/" class="shiyu-sidebar-top-logo">
           <img :src="logo" class="img-fluid" alt="logo">
-          <span v-if="sidebarIsOpen">时雨</span>
+          <span>时雨</span>
         </router-link>
         <div class="shiyu-sidebar-fixed" @click="sidebarOpen(true)">
           <i :class="sidebarIsOpen ? 'bi bi-record2' : 'bi bi-record'" />
@@ -72,7 +72,7 @@ export default {
   height: 100%;
   width: 260px;
   background-color: transparent;
-  transition: all 0.5s;
+  transition: all 0.5s ease;
 }
 .shiyu-sidebar{
   position: absolute;
@@ -129,7 +129,21 @@ export default {
     overflow: hidden;
   }
 }
+span {
+  white-space: nowrap;
+  overflow: hidden;
+}
 .shiyu-sidebar-hover:hover{
   width: 260px !important;
+}
+.shiyu-hide{
+  i, span{
+    display: none !important;
+  }
+}
+.shiyu-hide:hover {
+  i, span{
+    display: inline !important;
+  }
 }
 </style>
