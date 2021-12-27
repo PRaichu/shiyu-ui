@@ -1,19 +1,19 @@
 <template>
   <div class="shiyu-container">
-    <Sidebar/>
+    <Sidebar />
     <div class="shiyu-content">
-      <TopNav/>
-      <PageLayout/>
+      <TopNav />
+      <PageLayout />
     </div>
   </div>
 </template>
 
 <script>
-import Sidebar from "@/components/Sidebar";
-import PageLayout from "@/layouts/PageLayout";
-import TopNav from "@/components/TopNav";
+import Sidebar from '@/components/Sidebar'
+import PageLayout from '@/layouts/PageLayout'
+import TopNav from '@/components/TopNav'
 export default {
-  name: "Layout",
+  name: 'Layout',
   components: {
     TopNav,
     PageLayout,

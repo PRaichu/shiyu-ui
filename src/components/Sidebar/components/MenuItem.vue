@@ -2,21 +2,23 @@
   <div class="shiyu-menuitem-box">
     <div class="shiyu-menuitem-box-scroll">
       <div v-for="(menu, index) in menuItem" :key="index">
-        <router-link class="shiyu-menuitem"
-                     :class="{'shiyu-menuitem-activated': activated[index],
-                 'shiyu-menuitem-radius': menu.isParent}"
-                     :to="menu.link"
-                     @click.native="activeMenu(index)">
+        <router-link
+          class="shiyu-menuitem"
+          :class="{'shiyu-menuitem-activated': activated[index],
+                   'shiyu-menuitem-radius': menu.isParent}"
+          :to="menu.link"
+          @click.native="activeMenu(index)"
+        >
           <div class="shiyu-menuitem-logo">
-            <i :class="menu.iconClass"/>
+            <i :class="menu.iconClass" />
             <span>{{ menu.title }}</span>
           </div>
-          <i class="el-icon-arrow-right" :class="{'el-icon-arrow-right-activated': activated[index]}" v-if="menu.isParent"/>
+          <i v-if="menu.isParent" class="el-icon-arrow-right" :class="{'el-icon-arrow-right-activated': activated[index]}" />
         </router-link>
-        <div ref="shiyu-menuitem-items" class="shiyu-menuitem-items" v-if="menu.isParent">
-          <router-link class="shiyu-menuitem" v-for="(item, index) in menu.children" :key="index" :to="item.link">
+        <div v-if="menu.isParent" ref="shiyu-menuitem-items" class="shiyu-menuitem-items">
+          <router-link v-for="(item, index) in menu.children" :key="index" class="shiyu-menuitem" :to="item.link">
             <div class="shiyu-menuitem-logo">
-              <i :class="item.iconClass"/>
+              <i :class="item.iconClass" />
               <span>{{ item.title }}</span>
             </div>
           </router-link>
@@ -28,19 +30,16 @@
 
 <script>
 export default {
-  name: "MenuItem",
+  name: 'MenuItem',
   components: {
   },
   props: {
-    menuItem: {type: Array}
+    menuItem: { type: Array, default: () => { return [] } }
   },
   data() {
     return {
-      activated: [],
+      activated: []
     }
-  },
-  mounted() {
-    this.menuItem.forEach(() => { this.activated.push(false) })
   },
   watch: {
     activated: {
@@ -48,10 +47,10 @@ export default {
         let refIndex = 0
         value.forEach((item, index) => {
           if (this.menuItem[index].isParent) {
-            this.$refs["shiyu-menuitem-items"][refIndex].style.height = '0px'
+            this.$refs['shiyu-menuitem-items'][refIndex].style.height = '0px'
             if (item) {
               // 此处根据菜单高度调整 52=height+margin
-              this.$refs["shiyu-menuitem-items"][refIndex].style.height = 52 * this.menuItem[index].children.length + 'px'
+              this.$refs['shiyu-menuitem-items'][refIndex].style.height = 52 * this.menuItem[index].children.length + 'px'
             }
             refIndex++
           }
@@ -59,6 +58,9 @@ export default {
       },
       immediate: true
     }
+  },
+  mounted() {
+    this.menuItem.forEach(() => { this.activated.push(false) })
   },
   methods: {
     activeMenu(index) {

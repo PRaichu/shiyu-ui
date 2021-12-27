@@ -6,37 +6,30 @@
         <span>时雨</span>
       </router-link>
       <div class="shiyu-sidebar-fixed" @click="sidebarOpen">
-        <i :class="isOpen ? 'bi bi-circle' : 'bi bi-circle-fill'"/>
+        <i :class="isOpen ? 'bi bi-record' : 'bi bi-record2'" />
       </div>
     </div>
     <div class="shiyu-sidebar-scrollbar">
-      <MenuItem :menu-item="menuItem"/>
+      <MenuItem :menu-item="menuItem" />
     </div>
   </div>
 </template>
 
 <script>
-import MenuItem from "@/components/Sidebar/components/MenuItem";
+import MenuItem from '@/components/Sidebar/components/MenuItem'
 export default {
   name: 'Sidebar',
+  components: {
+    MenuItem
+  },
   props: {
     homeURL: { type: Object, default: () => ({ name: 'dashboard.home-1' }) },
     logo: { type: String, default: require('@/assets/logo.png') },
     horizontal: { type: Boolean, default: false },
-    items: { type: Array },
+    items: { type: Array, default: () => { return [] } },
     sidebarGroupTitle: { type: Boolean, default: true }
   },
-  components: {
-    MenuItem
-  },
-  mounted () {
-  },
-  methods: {
-    sidebarOpen() {
-      this.isOpen = !this.isOpen
-    }
-  },
-  data () {
+  data() {
     return {
       // todo 边栏置顶问题 store
       isOpen: this.$store.state.sidebar.isOpen,
@@ -51,17 +44,24 @@ export default {
               title: '信息',
               iconClass: 'el-icon-s-shop',
               link: '/hello',
-              isParent: false,
+              isParent: false
             },
             {
               title: '设置',
               iconClass: 'el-icon-s-shop',
               link: '/',
-              isParent: false,
+              isParent: false
             }
           ]
-        },
+        }
       ]
+    }
+  },
+  mounted() {
+  },
+  methods: {
+    sidebarOpen() {
+      this.isOpen = !this.isOpen
     }
   }
 }
@@ -103,21 +103,17 @@ export default {
     .shiyu-sidebar-fixed{
       width: 24px;
       height: 24px;
-      border-radius: 100px;
-      background-color: #92debf;
-      color: #ffffff;
+      color: #92debf;
       display: flex;
       justify-content: center;
       align-items: center;
       i{
-        font-size: 12px;
+        font-size: 30px;
         font-weight: bolder;
       }
     }
     .shiyu-sidebar-fixed:hover{
       cursor: pointer;
-      background-color: #92debf;
-      color: #ffffff;
     }
   }
   .shiyu-sidebar-scrollbar{
