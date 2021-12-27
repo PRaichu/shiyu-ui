@@ -1,17 +1,17 @@
 <template>
   <div>
-    <div ref="shiyu-sidebar" class="shiyu-sidebar" :class="{'shiyu-sidebar-hover': !sidebarIsOpenState}">
+    <div ref="shiyu-sidebar" class="shiyu-sidebar" :class="{'shiyu-sidebar-hover': !sidebarIsOpen}">
       <div class="shiyu-sidebar-top">
         <router-link to="/" class="shiyu-sidebar-top-logo">
           <img :src="logo" class="img-fluid" alt="logo">
-          <span>时雨</span>
+          <span v-if="sidebarIsOpen">时雨</span>
         </router-link>
         <div class="shiyu-sidebar-fixed" @click="sidebarOpen(true)">
-          <i :class="sidebarIsOpenState ? 'bi bi-record2' : 'bi bi-record'" />
+          <i :class="sidebarIsOpen ? 'bi bi-record2' : 'bi bi-record'" />
         </div>
       </div>
       <div class="shiyu-sidebar-scrollbar">
-        <MenuItem :menu-item="menuItem" />
+        <MenuItem :menu-item="sideBarMenu" />
       </div>
     </div>
     <div ref="shiyu-sidebar-mask" class="shiyu-sidebar-mask" />
@@ -36,34 +36,12 @@ export default {
   },
   data() {
     return {
-      // todo 边栏置顶问题 store
-      menuItem: [
-        {
-          title: '个人中心',
-          iconClass: 'el-icon-s-shop',
-          link: '',
-          isParent: true,
-          children: [
-            {
-              title: '信息',
-              iconClass: 'el-icon-s-shop',
-              link: '/hello',
-              isParent: false
-            },
-            {
-              title: '设置',
-              iconClass: 'el-icon-s-shop',
-              link: '/',
-              isParent: false
-            }
-          ]
-        }
-      ]
     }
   },
   computed: {
     ...mapGetters({
-      sidebarIsOpenState: 'Setting/sidebarIsOpenState'
+      sideBarMenu: 'Config/sideBarMenu',
+      sidebarIsOpen: 'Setting/sidebarIsOpen'
     })
   },
   mounted() {
@@ -75,14 +53,14 @@ export default {
     }),
     sidebarOpen(changed = false) {
       if (changed) {
-        this.setSidebarIsOpen(!this.sidebarIsOpenState)
+        this.setSidebarIsOpen(!this.sidebarIsOpen)
       }
-      if (this.sidebarIsOpenState) {
+      if (this.sidebarIsOpen) {
         this.$refs['shiyu-sidebar-mask'].style.width = '260px'
         this.$refs['shiyu-sidebar'].style.width = '260px'
       } else {
-        this.$refs['shiyu-sidebar-mask'].style.width = '80px'
-        this.$refs['shiyu-sidebar'].style.width = '80px'
+        this.$refs['shiyu-sidebar-mask'].style.width = '70px'
+        this.$refs['shiyu-sidebar'].style.width = '70px'
       }
     }
   }

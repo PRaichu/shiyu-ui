@@ -1,3 +1,3 @@
 export default {
-  sidebarIsOpenState: state => state.sidebarIsOpen
+  sidebarIsOpen: state => state.sidebarIsOpen
 }

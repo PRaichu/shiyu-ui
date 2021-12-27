@@ -16,7 +16,7 @@
           <i v-if="menu.isParent" class="el-icon-arrow-right" :class="{'el-icon-arrow-right-activated': activated[index]}" />
         </router-link>
         <div v-if="menu.isParent" ref="shiyu-menuitem-items" class="shiyu-menuitem-items">
-          <router-link v-for="(item, index) in menu.children" :key="index" class="shiyu-menuitem" :to="item.link">
+          <router-link v-for="(item, menuIndex) in menu.children" :key="menuIndex" class="shiyu-menuitem" :to="item.link">
             <div class="shiyu-menuitem-logo">
               <i :class="item.iconClass" />
               <span>{{ item.title }}</span>
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'MenuItem',
   components: {
@@ -40,6 +42,11 @@ export default {
     return {
       activated: []
     }
+  },
+  computed: {
+    ...mapGetters({
+      sidebarIsOpenState: 'Setting/sidebarIsOpenState'
+    })
   },
   watch: {
     activated: {
