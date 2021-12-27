@@ -1,22 +1,27 @@
 <template>
-  <div class="shiyu-sidebar">
-    <div class="shiyu-sidebar-top">
-      <router-link to="/" class="shiyu-sidebar-top-logo">
-        <img :src="logo" class="img-fluid" alt="logo">
-        <span>时雨</span>
-      </router-link>
-      <div class="shiyu-sidebar-fixed" @click="sidebarOpen">
-        <i :class="isOpen ? 'bi bi-record' : 'bi bi-record2'" />
+  <div>
+    <div ref="shiyu-sidebar" class="shiyu-sidebar" :class="{'shiyu-sidebar-hover': !sidebarIsOpenState}">
+      <div class="shiyu-sidebar-top">
+        <router-link to="/" class="shiyu-sidebar-top-logo">
+          <img :src="logo" class="img-fluid" alt="logo">
+          <span>时雨</span>
+        </router-link>
+        <div class="shiyu-sidebar-fixed" @click="sidebarOpen(true)">
+          <i :class="sidebarIsOpenState ? 'bi bi-record2' : 'bi bi-record'" />
+        </div>
+      </div>
+      <div class="shiyu-sidebar-scrollbar">
+        <MenuItem :menu-item="menuItem" />
       </div>
     </div>
-    <div class="shiyu-sidebar-scrollbar">
-      <MenuItem :menu-item="menuItem" />
-    </div>
+    <div ref="shiyu-sidebar-mask" class="shiyu-sidebar-mask" />
   </div>
 </template>
 
 <script>
 import MenuItem from '@/components/Sidebar/components/MenuItem'
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   name: 'Sidebar',
   components: {
@@ -32,7 +37,6 @@ export default {
   data() {
     return {
       // todo 边栏置顶问题 store
-      isOpen: this.$store.state.sidebar.isOpen,
       menuItem: [
         {
           title: '个人中心',
@@ -57,18 +61,43 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapGetters({
+      sidebarIsOpenState: 'Setting/sidebarIsOpenState'
+    })
+  },
   mounted() {
+    this.sidebarOpen()
   },
   methods: {
-    sidebarOpen() {
-      this.isOpen = !this.isOpen
+    ...mapActions({
+      setSidebarIsOpen: 'Setting/setSidebarIsOpen'
+    }),
+    sidebarOpen(changed = false) {
+      if (changed) {
+        this.setSidebarIsOpen(!this.sidebarIsOpenState)
+      }
+      if (this.sidebarIsOpenState) {
+        this.$refs['shiyu-sidebar-mask'].style.width = '260px'
+        this.$refs['shiyu-sidebar'].style.width = '260px'
+      } else {
+        this.$refs['shiyu-sidebar-mask'].style.width = '80px'
+        this.$refs['shiyu-sidebar'].style.width = '80px'
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.shiyu-sidebar-mask{
+  height: 100%;
+  width: 260px;
+  background-color: transparent;
+  transition: all 0.5s;
+}
 .shiyu-sidebar{
+  position: absolute;
   z-index: 999;
   float: left;
   width: 260px;
@@ -77,6 +106,7 @@ export default {
   background-color: #ffffff;
   box-shadow: 1px 0 10px darkgrey;
   overflow: hidden;
+  transition: all 0.5s;
   flex-grow:0;
   flex-shrink:0;
   .shiyu-sidebar-top{
@@ -120,5 +150,8 @@ export default {
     height: calc(100% - 100px);
     overflow: hidden;
   }
+}
+.shiyu-sidebar-hover:hover{
+  width: 260px !important;
 }
 </style>

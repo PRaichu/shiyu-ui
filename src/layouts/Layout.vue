@@ -35,6 +35,6 @@ export default {
   width: 100%;
   height: auto;
   padding: 20px 30px 20px 30px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 </style>
