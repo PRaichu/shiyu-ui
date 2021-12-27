@@ -6,7 +6,7 @@
           <img :src="logo" class="img-fluid" alt="logo">
           <span>时雨</span>
         </router-link>
-        <div class="shiyu-sidebar-fixed" @click="sidebarOpen(true)">
+        <div class="shiyu-sidebar-fixed" @click="sidebarChange(true)">
           <i :class="sidebarIsOpen ? 'bi bi-record2' : 'bi bi-record'" />
         </div>
       </div>
@@ -36,22 +36,28 @@ export default {
   },
   data() {
     return {
+      index: 0
     }
   },
   computed: {
     ...mapGetters({
       sideBarMenu: 'Config/sideBarMenu',
       sidebarIsOpen: 'Setting/sidebarIsOpen'
-    })
+    }),
+    cssVars() {
+      return {
+        '--color': this.$store.getters['Config/theme'][this.index]
+      }
+    }
   },
   mounted() {
-    this.sidebarOpen()
+    this.sidebarChange()
   },
   methods: {
     ...mapActions({
       setSidebarIsOpen: 'Setting/setSidebarIsOpen'
     }),
-    sidebarOpen(changed = false) {
+    sidebarChange(changed = false) {
       if (changed) {
         this.setSidebarIsOpen(!this.sidebarIsOpen)
       }
@@ -59,15 +65,16 @@ export default {
         this.$refs['shiyu-sidebar-mask'].style.width = '260px'
         this.$refs['shiyu-sidebar'].style.width = '260px'
       } else {
-        this.$refs['shiyu-sidebar-mask'].style.width = '70px'
-        this.$refs['shiyu-sidebar'].style.width = '70px'
+        this.$refs['shiyu-sidebar-mask'].style.width = '75px'
+        this.$refs['shiyu-sidebar'].style.width = '75px'
       }
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" vars="{ color }" scoped>
+// todo 主题切换
 .shiyu-sidebar-mask{
   height: 100%;
   width: 260px;
@@ -105,6 +112,7 @@ export default {
         margin: 0 15px 0 15px;
       }
       span{
+        color: var(--color);
         font-size: 24px;
       }
     }

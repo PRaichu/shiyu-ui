@@ -1,3 +1,4 @@
 export default {
-  sideBarMenu: state => state.sidebarMenu
+  sideBarMenu: state => state.sidebarMenu,
+  theme: state => state.theme
 }

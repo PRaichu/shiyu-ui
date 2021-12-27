@@ -24,7 +24,8 @@ const state = {
         }
       ]
     }
-  ]
+  ],
+  theme: ['#5be138', '#217fb2']
 }
 
 export default {
