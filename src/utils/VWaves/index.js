@@ -9,7 +9,7 @@ export default {
     }
     // 给配置对象附一个默认值
     const defaultOpt = {
-      color: options.color || 'rgba(0, 0, 0, 0.15)',
+      color: options.color || 'rgba(0,0,0,0.1)',
       size: options.size || 0,
       time: options.time || 1,
       speed: options.speed || 'linear',

@@ -20,6 +20,8 @@ export default {
   margin-bottom: 20px;
   @include background_color("background_color_base1");
   border-radius: 20px;
-  box-shadow: 0 0 15px themed("background_color_base1");
+  @include theme_builder {
+    box-shadow: 0 0 15px theme-get("shadow_color");
+  }
 }
 </style>

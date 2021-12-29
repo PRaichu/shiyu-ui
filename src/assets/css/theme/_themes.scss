@@ -1,36 +1,40 @@
 $themes: (
         light: (
-          //font
+          // font
                 font_color_base1: #6c6c6c,
                 font_color_base2: #1a1a1a,
                 font_color_base3: #f1fcfe,
                 font_color_base4: #71c9ce,
                 font_color_hover: #71c9ce,
-          //background
+          // background
                 background_color_base1: #ffffff,
                 background_color_base2: #e5f5f2,
                 background_color_face: #f0f2f5,
                 background_color_block1: #2fbcc4,
                 background_color_block2: #abedd8,
                 background_color_elment: #71c9ce,
-          //边框
+          // shadow
+                shadow_color: rgba(80, 80, 80, 0.20),
+          // border
                 border_color1: #3d414a,
         ),
         dark: (
-          //font
+          // font
                 font_color_base1: #efefef,
                 font_color_base2: #ffffff,
                 font_color_base3: #f1fcfe,
                 font_color_base4: #71c9ce,
                 font_color_hover: #71c9ce,
-          //background
+          // background
                 background_color_base1: #1f1f1f,
                 background_color_base2: #505050,
                 background_color_face: #f0f2f5,
                 background_color_block1: #2fbcc4,
                 background_color_block2: #abedd8,
                 background_color_elment: #71c9ce,
-          //边框
+          // shadow
+                shadow_color: rgba(131, 131, 131, 0.2),
+          // border
                 border_color1: #3d414a,
         )
 );

@@ -85,7 +85,7 @@ export default {
   border: none;
   @include background_color("background_color_base1");
   @include theme_builder {
-    box-shadow: 1px 0 15px theme-get("background_color_face");
+    box-shadow: 1px 0 15px theme-get("shadow_color");
   }
   overflow: hidden;
   transition: all 0.5s;
