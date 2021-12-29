@@ -36,19 +36,13 @@ export default {
   },
   data() {
     return {
-      index: 0
     }
   },
   computed: {
     ...mapGetters({
       sideBarMenu: 'Config/sideBarMenu',
       sidebarIsOpen: 'Setting/sidebarIsOpen'
-    }),
-    cssVars() {
-      return {
-        '--color': this.$store.getters['Config/theme'][this.index]
-      }
-    }
+    })
   },
   mounted() {
     this.sidebarChange()
@@ -58,10 +52,12 @@ export default {
       setSidebarIsOpen: 'Setting/setSidebarIsOpen'
     }),
     sidebarChange(changed = false) {
+      window.document.documentElement.setAttribute('data-theme', 'light')
       if (changed) {
         this.setSidebarIsOpen(!this.sidebarIsOpen)
       }
       if (this.sidebarIsOpen) {
+        window.document.documentElement.setAttribute('data-theme', 'dark')
         this.$refs['shiyu-sidebar-mask'].style.width = '260px'
         this.$refs['shiyu-sidebar'].style.width = '260px'
       } else {
@@ -73,7 +69,8 @@ export default {
 }
 </script>
 
-<style lang="scss" vars="{ color }" scoped>
+<style lang="scss" scoped>
+@import "/src/assets/css/theme/theme_handle";
 // todo 主题切换
 .shiyu-sidebar-mask{
   height: 100%;
@@ -112,7 +109,7 @@ export default {
         margin: 0 15px 0 15px;
       }
       span{
-        color: var(--color);
+        @include font_color("font_color1");
         font-size: 24px;
       }
     }
