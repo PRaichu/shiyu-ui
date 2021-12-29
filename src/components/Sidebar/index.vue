@@ -52,12 +52,10 @@ export default {
       setSidebarIsOpen: 'Setting/setSidebarIsOpen'
     }),
     sidebarChange(changed = false) {
-      window.document.documentElement.setAttribute('data-theme', 'light')
       if (changed) {
         this.setSidebarIsOpen(!this.sidebarIsOpen)
       }
       if (this.sidebarIsOpen) {
-        window.document.documentElement.setAttribute('data-theme', 'dark')
         this.$refs['shiyu-sidebar-mask'].style.width = '260px'
         this.$refs['shiyu-sidebar'].style.width = '260px'
       } else {
@@ -85,8 +83,10 @@ export default {
   width: 260px;
   height: 100%;
   border: none;
-  background-color: #ffffff;
-  box-shadow: 1px 0 10px darkgrey;
+  @include background_color("background_color_base1");
+  @include theme_builder {
+    box-shadow: 1px 0 15px theme-get("background_color_face");
+  }
   overflow: hidden;
   transition: all 0.5s;
   flex-grow:0;
@@ -109,18 +109,18 @@ export default {
         margin: 0 15px 0 15px;
       }
       span{
-        @include font_color("font_color1");
+        @include font_color("font_color_base1");
         font-size: 24px;
       }
     }
     .shiyu-sidebar-fixed{
       width: 24px;
       height: 24px;
-      color: #92debf;
       display: flex;
       justify-content: center;
       align-items: center;
       i{
+        @include font_color("font_color_base4");
         font-size: 30px;
         font-weight: bolder;
       }

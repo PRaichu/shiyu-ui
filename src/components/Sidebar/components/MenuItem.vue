@@ -24,7 +24,7 @@
             class="shiyu-menuitem shiyu-no-radius"
             :to="item.link"
           >
-            <div class="shiyu-menuitem-logo">
+            <div class="shiyu-menuitem-logo shiyu-">
               <i :class="item.iconClass" />
               <span>{{ item.title }}</span>
             </div>
@@ -101,6 +101,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "/src/assets/css/theme/theme_handle";
+
 .shiyu-menuitem-box{
   height: 100%;
   overflow: hidden;
@@ -116,7 +118,7 @@ export default {
   width: 100%;
   height: 50px;
   border-radius: 0 20px 20px 0;
-  color: #5e5e5e;
+  @include font_color("font_color_base1");
   display: flex;
   align-items: center;
   align-content: center;
@@ -126,7 +128,7 @@ export default {
     align-items: center;
     align-content: center;
     i{
-      font-size: 24px;
+      font-size: 20px;
       margin: 0 12px 0 15px;
     }
     span{
@@ -139,12 +141,16 @@ export default {
   }
 }
 .shiyu-menuitem-activated{
-  background-color: #a9cb6a;
+  @include background_color("background_color_block1");
+  i, span{
+    @include font_color("font_color_base3")
+  }
 }
 .shiyu-menuitem-radius{
   border-radius: 0 20px 0 0;
 }
 .el-icon-arrow-right{
+  font-weight: bold;
   transition: all 0.5s ease;
   -moz-transition: all 0.5s ease; /* Firefox 4 */
   -webkit-transition: all 0.5s ease; /* Safari and Chrome */
@@ -155,7 +161,7 @@ export default {
 }
 .shiyu-menuitem-items{
   height: 0;
-  background-color: #a1ef75;
+  @include background_color("background_color_base2");
   overflow: hidden;
   border-radius: 0 0 20px 0;
   transition: all 0.5s ease;

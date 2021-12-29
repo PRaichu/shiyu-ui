@@ -12,17 +12,29 @@
 import Sidebar from '@/components/Sidebar'
 import PageLayout from '@/layouts/PageLayout'
 import TopNav from '@/components/TopNav'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Layout',
   components: {
     TopNav,
     PageLayout,
     Sidebar
+  },
+  computed: {
+    ...mapGetters({
+      theme: 'Setting/theme'
+    })
+  },
+  mounted() {
+    window.document.documentElement.setAttribute('shiyu-theme', this.theme)
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import "/src/assets/css/theme/theme_handle";
+
 .shiyu-container{
   left: 0;
   top: 0;
@@ -30,6 +42,7 @@ export default {
   height: 100%;
   display: flex;
   overflow: hidden;
+  @include background_color("background_color_base2");
 }
 .shiyu-content{
   width: 100%;

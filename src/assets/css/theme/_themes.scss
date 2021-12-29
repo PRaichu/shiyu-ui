@@ -1,25 +1,35 @@
 $themes: (
         light: (
-          //字体
-                font_color1: #2ba40f,
-                font_color2: white,
-          //背景
-                background_color1: #b3e3ad,
-                background_color2: #f0f2f5,
-                background_color3: red,
-                background_color4: #2674e7,
+          //font
+                font_color_base1: #6c6c6c,
+                font_color_base2: #1a1a1a,
+                font_color_base3: #f1fcfe,
+                font_color_base4: #71c9ce,
+                font_color_hover: #71c9ce,
+          //background
+                background_color_base1: #ffffff,
+                background_color_base2: #e5f5f2,
+                background_color_face: #f0f2f5,
+                background_color_block1: #2fbcc4,
+                background_color_block2: #abedd8,
+                background_color_elment: #71c9ce,
           //边框
                 border_color1: #3d414a,
         ),
         dark: (
-          //字体
-                font_color1: #754ce1,
-                font_color2: white,
-          //背景
-                background_color1: #1b2531,
-                background_color2: #283142,
-                background_color3: #1e6ceb,
-                background_color4: #323e4e,
+          //font
+                font_color_base1: #efefef,
+                font_color_base2: #ffffff,
+                font_color_base3: #f1fcfe,
+                font_color_base4: #71c9ce,
+                font_color_hover: #71c9ce,
+          //background
+                background_color_base1: #1f1f1f,
+                background_color_base2: #505050,
+                background_color_face: #f0f2f5,
+                background_color_block1: #2fbcc4,
+                background_color_block2: #abedd8,
+                background_color_elment: #71c9ce,
           //边框
                 border_color1: #3d414a,
         )
