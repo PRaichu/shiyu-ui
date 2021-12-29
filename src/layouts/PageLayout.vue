@@ -14,6 +14,5 @@ export default {
 div{
   width: 100%;
   height: auto;
-  background-color: #a7e3af;
 }
 </style>

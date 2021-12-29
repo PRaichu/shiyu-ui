@@ -26,8 +26,18 @@ export default {
       theme: 'Setting/theme'
     })
   },
+  watch: {
+    theme() {
+      this.setTheme()
+    }
+  },
   mounted() {
-    window.document.documentElement.setAttribute('shiyu-theme', this.theme)
+    this.setTheme()
+  },
+  methods: {
+    setTheme() {
+      window.document.documentElement.setAttribute('shiyu-theme', this.theme)
+    }
   }
 }
 </script>
