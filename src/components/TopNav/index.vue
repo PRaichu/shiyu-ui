@@ -7,7 +7,7 @@
       </div>
       <div class="shiyu-topNav-right">
         <i v-shiyu-waves class="shiyu-topNav-theme bi bi-lightbulb" @click="changeTheme" />
-        <div v-shiyu-waves class="shiyu-topNav-user">
+        <div ref="shiyu-topNav-user" v-shiyu-waves class="shiyu-topNav-user" @click="user">
           <img :src="require('@/assets/logo.png')" alt="avatar">
           <div>
             <span class="shiyu-topNav-user-username">用户名</span>
@@ -16,18 +16,32 @@
         </div>
       </div>
     </div>
-    <div>asd</div>
+    <CardUser v-show="cardUserIsShow" ref="shiyu-topNav-cardUser" class="shiyu-topNav-cardUser" :title="title" :links="links" />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import CardUser from '@/components/Cards/CardUser'
 export default {
   name: 'TopNav',
+  components: { CardUser },
+  props: {
+    title: { type: String, default: '' },
+    links: { type: Array, default: () => { return [] } }
+  },
+  data() {
+    return {
+      cardUserIsShow: false
+    }
+  },
   computed: {
     ...mapGetters({
       theme: 'Setting/theme'
     })
+  },
+  mounted() {
+    this.resetLocation()
   },
   methods: {
     ...mapActions({
@@ -39,6 +53,15 @@ export default {
       } else {
         this.setTheme('light')
       }
+    },
+    resetLocation() {
+      const userBox = this.$refs['shiyu-topNav-user'].getBoundingClientRect()
+      this.$refs['shiyu-topNav-cardUser'].$el.style.right = document.body.offsetWidth - userBox.right + 'px'
+      this.$refs['shiyu-topNav-cardUser'].$el.style.top = userBox.top + userBox.height + 'px'
+    },
+    user() {
+      this.cardUserIsShow = !this.cardUserIsShow
+      // this.resetLocation()
     }
   }
 }
@@ -53,6 +76,7 @@ export default {
   height: 80px;
   margin-bottom: 20px;
   padding: 0 0 0 20px;
+  overflow: hidden;
   @include background_color("background_color_base1");
   border-radius: 20px;
   @include theme_builder {
@@ -87,6 +111,7 @@ export default {
     justify-content: center;
     align-items: center;
     height: 100%;
+    overflow: hidden;
     .shiyu-topNav-theme{
       @include font_color("font_color_base4");
       font-weight: bold;
@@ -130,5 +155,9 @@ export default {
       cursor: pointer;
     }
   }
+}
+.shiyu-topNav-cardUser{
+  position: fixed;
+  margin: 10px;
 }
 </style>

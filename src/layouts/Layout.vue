@@ -2,7 +2,7 @@
   <div class="shiyu-container">
     <Sidebar />
     <div class="shiyu-content">
-      <TopNav />
+      <TopNav :title="user.username" :links="user.links" />
       <PageLayout />
     </div>
   </div>
@@ -20,6 +20,31 @@ export default {
     TopNav,
     PageLayout,
     Sidebar
+  },
+  data() {
+    return {
+      user: {
+        username: '',
+        links: [
+          {
+            title: '我的信息',
+            link: '/hello',
+            iconClass: 'bi bi-person-square'
+          },
+          {
+            title: '我的视频',
+            link: '/',
+            iconClass: 'bi bi-cast'
+          },
+          {
+            title: '设置',
+            link: '/',
+            iconClass: 'bi bi-gear'
+          }
+        ]
+      }
+
+    }
   },
   computed: {
     ...mapGetters({

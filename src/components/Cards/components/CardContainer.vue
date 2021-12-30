@@ -1,6 +1,6 @@
 <template>
   <div class="shiyu-cardList">
-    <div class="shiyu-cardList-title-box">
+    <div v-if="title !== ''" class="shiyu-cardList-title-box">
       <span class="shiyu-cardList-title">{{ title }}</span>
     </div>
     <div class="shiyu-cardList-list-box">

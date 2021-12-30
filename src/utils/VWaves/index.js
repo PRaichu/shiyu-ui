@@ -1,4 +1,4 @@
-// 项目地址：https://gitee.com/sfyblack/vue-waves
+// 已适配shiyu项目，原项目地址：https://gitee.com/sfyblack/vue-waves
 import './waves.css'
 import store from '@/store'
 
@@ -13,7 +13,7 @@ export default {
       color: options.color || 'rgba(0,0,0,0.1)',
       size: options.size || 0,
       time: options.time || 1,
-      speed: options.speed || 'linear',
+      speed: options.speed || 'ease-out',
       tag: options.tag || 'span',
       directiveName: options.directiveName || 'waves'
     }
@@ -27,7 +27,6 @@ export default {
           }
           // 主题色适配
           let waveColor = defaultOpt.color
-          console.log(store.state.Setting.theme)
           if (store.state.Setting.theme === 'dark') {
             waveColor = 'rgba(255,255,255,0.1)'
           }
@@ -63,8 +62,8 @@ export default {
           ripple.style.backgroundColor = customOpt.color
           // 给创建的元素指定类名以及left和top值
           ripple.className = 'ripple'
-          ripple.style.left = `${e.offsetX}px`
-          ripple.style.top = `${e.offsetY}px`
+          ripple.style.left = `${e.layerX}px`
+          ripple.style.top = `${e.layerY}px`
           // 指定动画配置
           ripple.style.animation = `v-waves-animate ${customOpt.time}s ${customOpt.speed} 1`
           // 指定ripple的宽度和高度

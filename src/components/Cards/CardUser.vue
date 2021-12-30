@@ -72,6 +72,12 @@ export default {
 }
 .shiyu-cardList-list-item:hover{
   @include background_color("background_color_base2");
+  .shiyu-cardList-list-item-icon{
+    @include background_color("background_color_block1");
+    i{
+      @include font_color("font_color_base3");
+    }
+  }
 }
 .shiyu-logout{
   padding: 12px 0 12px 0;
