@@ -1,5 +1,6 @@
-// 引入依赖的样式文件
+// 项目地址：https://gitee.com/sfyblack/vue-waves
 import './waves.css'
+import store from '@/store'
 
 export default {
   install(Vue, options) {
@@ -20,22 +21,27 @@ export default {
     Vue.directive(defaultOpt.directiveName, {
       bind(el, binding) {
         el.addEventListener('click', function(e) {
-          // 判断binding.value有没有值，没有就初始化一个空对象
-          if (!binding.value) {
-            binding.value = {}
+          let bindValue = binding.value
+          if (!bindValue) {
+            bindValue = {}
           }
-
+          // 主题色适配
+          let waveColor = defaultOpt.color
+          console.log(store.state.Setting.theme)
+          if (store.state.Setting.theme === 'dark') {
+            waveColor = 'rgba(255,255,255,0.1)'
+          }
           const customOpt = {
             // 没有传颜色就用默认值
-            color: binding.value.color || defaultOpt.color,
+            color: bindValue.color || waveColor,
             // 如果默认的offsetHeight 读取失败，可以直接传如元素大小（我也不知道为什么有时候offsetHeight会失效）
-            size: binding.value.size || defaultOpt.size,
+            size: bindValue.size || defaultOpt.size,
             // 动画时长默认 1秒
-            time: binding.value.time || defaultOpt.time,
+            time: bindValue.time || defaultOpt.time,
             // 运动曲线
-            speed: binding.value.speed || defaultOpt.speed,
+            speed: bindValue.speed || defaultOpt.speed,
             // 使用什么标签作为波纹的容器（建议使用无特殊含义标签）
-            tag: binding.value.tag || defaultOpt.tag
+            tag: bindValue.tag || defaultOpt.tag
           }
           // 元素不存在终止代码行下运行
           if (!el) { return null }
