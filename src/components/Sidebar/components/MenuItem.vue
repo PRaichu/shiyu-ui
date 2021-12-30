@@ -3,7 +3,7 @@
     <div class="shiyu-menuitem-box-scroll">
       <div v-for="(menu, index) in menuItem" :key="index">
         <router-link
-          v-waves="{time: 0.5}"
+          v-shiyu-waves
           class="shiyu-menuitem"
           :class="{'shiyu-menuitem-activated': activated[index],
                    'shiyu-menuitem-radius': menu.isParent}"
@@ -20,7 +20,7 @@
           <router-link
             v-for="(item, menuIndex) in menu.children"
             :key="menuIndex"
-            v-waves="{time: 0.5}"
+            v-shiyu-waves
             class="shiyu-menuitem shiyu-no-radius"
             :to="item.link"
           >

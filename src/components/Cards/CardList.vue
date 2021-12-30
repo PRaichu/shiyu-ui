@@ -1,7 +1,13 @@
 <template>
   <CardContainer :title="title">
     <template>
-      <router-link v-for="(item, index) in links" :key="index" class="shiyu-cardList-list-item" :to="item.link">
+      <router-link
+        v-for="(item, index) in links"
+        :key="index"
+        v-shiyu-waves
+        :to="item.link"
+        class="shiyu-cardList-list-item"
+      >
         <span>{{ item.title }}</span>
       </router-link>
     </template>
@@ -32,7 +38,7 @@ export default {
 
 .shiyu-cardList-list-item{
   display: block;
-  padding: 10px 15px;
+  padding: 10px 30px 10px 15px;
   @include font_color("font_color_base1");
 }
 .shiyu-cardList-list-item:hover{

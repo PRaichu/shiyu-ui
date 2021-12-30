@@ -27,6 +27,7 @@
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
     <CardList title="哈哈哈" :links="links" />
+    <CardUser title="黑白的黒" :links="links2" />
     <div>dddddddd</div>
     <div>dddddddd</div>
     <div>dddddddd</div>
@@ -68,9 +69,10 @@
 
 <script>
 import CardList from '@/components/Cards/CardList'
+import CardUser from '@/components/Cards/CardUser'
 export default {
   name: 'HelloWorld',
-  components: { CardList },
+  components: { CardUser, CardList },
   props: {
   },
   data() {
@@ -83,6 +85,18 @@ export default {
         {
           title: '设置',
           link: '/'
+        }
+      ],
+      links2: [
+        {
+          title: '我的信息',
+          link: '/hello',
+          iconClass: 'bi bi-person-square'
+        },
+        {
+          title: '我的视频',
+          link: '/',
+          iconClass: 'bi bi-cast'
         }
       ]
     }

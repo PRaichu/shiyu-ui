@@ -6,8 +6,8 @@
         <i class="bi bi-search" />
       </div>
       <div class="shiyu-topNav-right">
-        <i class="shiyu-topNav-theme bi bi-lightbulb" @click="changeTheme" />
-        <div class="shiyu-topNav-user">
+        <i v-shiyu-waves class="shiyu-topNav-theme bi bi-lightbulb" @click="changeTheme" />
+        <div v-shiyu-waves class="shiyu-topNav-user">
           <img :src="require('@/assets/logo.png')" alt="avatar">
           <div>
             <span class="shiyu-topNav-user-username">用户名</span>
@@ -49,10 +49,10 @@ export default {
 
 .shiyu-topNav{
   z-index: 998;
-  width: calc(100% - 40px);
-  height: 60px;
+  width: calc(100% - 20px);
+  height: 80px;
   margin-bottom: 20px;
-  padding: 10px 20px;
+  padding: 0 0 0 20px;
   @include background_color("background_color_base1");
   border-radius: 20px;
   @include theme_builder {
@@ -86,17 +86,27 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100%;
     .shiyu-topNav-theme{
       @include font_color("font_color_base4");
       font-weight: bold;
       font-size: 24px;
       cursor: pointer;
+      height: 100%;
+      line-height: 80px;
+      text-align: center;
+      padding: 0 5px 0 5px;
     }
     .shiyu-topNav-user{
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 0 10px 0 10px;
+      padding: 0 20px 0 0;
+      height: 100%;
+      -moz-user-select:none;/*火狐*/
+      -webkit-user-select:none;/*webkit浏览器*/
+      -ms-user-select:none;/*IE10*/
+      user-select:none;
       img{
         height: 50px;
         margin: 0 10px 0 10px;
@@ -115,6 +125,9 @@ export default {
           font-size: 14px;
         }
       }
+    }
+    .shiyu-topNav-user:hover{
+      cursor: pointer;
     }
   }
 }
