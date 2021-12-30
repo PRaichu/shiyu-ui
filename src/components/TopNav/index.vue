@@ -1,19 +1,22 @@
 <template>
-  <div class="shiyu-topNav">
-    <div class="shiyu-topNav-search">
-      <input type="text">
-      <i class="bi bi-search" />
-    </div>
-    <div class="shiyu-topNav-right">
-      <i class="shiyu-topNav-theme bi bi-lightbulb" @click="changeTheme" />
-      <div class="shiyu-topNav-user">
-        <img :src="require('@/assets/logo.png')" alt="avatar">
-        <div>
-          <span class="shiyu-topNav-user-username">用户名</span>
-          <span class="shiyu-topNav-user-mark">标识</span>
+  <div>
+    <div class="shiyu-topNav">
+      <div class="shiyu-topNav-search">
+        <input type="text">
+        <i class="bi bi-search" />
+      </div>
+      <div class="shiyu-topNav-right">
+        <i class="shiyu-topNav-theme bi bi-lightbulb" @click="changeTheme" />
+        <div class="shiyu-topNav-user">
+          <img :src="require('@/assets/logo.png')" alt="avatar">
+          <div>
+            <span class="shiyu-topNav-user-username">用户名</span>
+            <span class="shiyu-topNav-user-mark">标识</span>
+          </div>
         </div>
       </div>
     </div>
+    <div>asd</div>
   </div>
 </template>
 
