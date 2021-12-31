@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="shiyu-topNav-container" class="shiyu-topNav-container">
     <div class="shiyu-topNav">
       <div class="shiyu-topNav-search">
         <input type="text">
@@ -7,7 +7,7 @@
       </div>
       <div class="shiyu-topNav-right">
         <i v-shiyu-waves class="shiyu-topNav-theme bi bi-lightbulb" @click="changeTheme" />
-        <div ref="shiyu-topNav-user" v-shiyu-waves class="shiyu-topNav-user" @click="user">
+        <div ref="shiyu-topNav-user" v-shiyu-waves class="shiyu-topNav-user" @click="cardUserOpen">
           <img :src="require('@/assets/logo.png')" alt="avatar">
           <div>
             <span class="shiyu-topNav-user-username">用户名</span>
@@ -37,8 +37,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      theme: 'Setting/theme'
+      theme: 'Setting/theme',
+      sidebarIsOpen: 'Setting/sidebarIsOpen'
     })
+  },
+  watch: {
+    sidebarIsOpen(newValue) {
+      // 260和75是侧边栏宽度，68为边框额外宽度
+      const overWidth = newValue ? 260 + 68 : 75 + 68
+      this.$refs['shiyu-topNav-container'].style.width = `calc(100% - ${overWidth}px)`
+    }
   },
   mounted() {
     this.resetLocation()
@@ -56,12 +64,11 @@ export default {
     },
     resetLocation() {
       const userBox = this.$refs['shiyu-topNav-user'].getBoundingClientRect()
-      this.$refs['shiyu-topNav-cardUser'].$el.style.right = document.body.offsetWidth - userBox.right + 'px'
-      this.$refs['shiyu-topNav-cardUser'].$el.style.top = userBox.top + userBox.height + 'px'
+      this.$refs['shiyu-topNav-cardUser'].$el.style.right = document.body.offsetWidth - userBox.right - 38 + 'px'
+      this.$refs['shiyu-topNav-cardUser'].$el.style.top = 10 + userBox.height + 'px'
     },
-    user() {
+    cardUserOpen() {
       this.cardUserIsShow = !this.cardUserIsShow
-      // this.resetLocation()
     }
   }
 }
@@ -70,6 +77,13 @@ export default {
 <style lang="scss" scoped>
 @import "/src/assets/css/theme/theme_handle";
 
+.shiyu-topNav-container{
+  position: fixed;
+  width: calc(100% - 328px);
+  left: auto;
+  right: 38px;
+  transition: all 0.5s ease;
+}
 .shiyu-topNav{
   z-index: 998;
   width: calc(100% - 20px);
@@ -157,7 +171,26 @@ export default {
   }
 }
 .shiyu-topNav-cardUser{
-  position: fixed;
-  margin: 10px;
+  position: absolute;
+  animation: cardUserOpen 0.3s ease;
+  transform-origin: 100% 0;
+}
+@keyframes cardUserOpen {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.7, 0.7);
+  }
+  80% {
+    opacity: 0.8;
+    transform: scale(1.05, 1.05);
+  }
+  95% {
+    opacity: 0.9;
+    transform: scale(1.025, 1.025);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
+  }
 }
 </style>

@@ -15,7 +15,7 @@ export default {
       time: options.time || 1,
       speed: options.speed || 'ease-out',
       tag: options.tag || 'span',
-      directiveName: options.directiveName || 'waves'
+      directiveName: options.directiveName || 'shiyu-waves'
     }
 
     Vue.directive(defaultOpt.directiveName, {

@@ -11,7 +11,7 @@ import App from './App.vue'
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(ElementUI)
-Vue.use(VWaves, { directiveName: 'shiyu-waves' })
+Vue.use(VWaves)
 
 new Vue({
   render: h => h(App),
