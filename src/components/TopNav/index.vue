@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <CardUser v-show="cardUserIsShow" ref="shiyu-topNav-cardUser" class="shiyu-topNav-cardUser" :title="title" :links="links" />
+    <CardUser v-show="cardUserIsShow" ref="shiyu-topNav-cardUser" v-shiyu-close="cardUserClose" class="shiyu-topNav-cardUser" :title="title" :links="links" />
   </div>
 </template>
 
@@ -32,7 +32,7 @@ export default {
   },
   data() {
     return {
-      cardUserIsShow: false
+      cardUserIsShow: true
     }
   },
   computed: {
@@ -68,7 +68,10 @@ export default {
       this.$refs['shiyu-topNav-cardUser'].$el.style.top = 10 + userBox.height + 'px'
     },
     cardUserOpen() {
-      this.cardUserIsShow = !this.cardUserIsShow
+      this.cardUserIsShow = true
+    },
+    cardUserClose() {
+      this.cardUserIsShow = false
     }
   }
 }

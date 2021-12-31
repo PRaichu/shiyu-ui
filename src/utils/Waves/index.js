@@ -8,17 +8,17 @@ export default {
     if (!options) {
       options = {}
     }
+    const directiveName = 'shiyu-waves'
     // 给配置对象附一个默认值
     const defaultOpt = {
       color: options.color || 'rgba(0,0,0,0.1)',
       size: options.size || 0,
       time: options.time || 1,
       speed: options.speed || 'ease-out',
-      tag: options.tag || 'span',
-      directiveName: options.directiveName || 'shiyu-waves'
+      tag: options.tag || 'span'
     }
 
-    Vue.directive(defaultOpt.directiveName, {
+    Vue.directive(directiveName, {
       bind(el, binding) {
         el.addEventListener('click', function(e) {
           let bindValue = binding.value
