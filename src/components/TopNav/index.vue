@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <CardUser v-show="cardUserIsShow" ref="shiyu-topNav-cardUser" v-shiyu-close="cardUserClose" class="shiyu-topNav-cardUser" :title="title" :links="links" />
+    <CardUser v-show="cardUserIsShow" ref="shiyu-topNav-cardUser" class="shiyu-topNav-cardUser" :title="title" :links="links" />
   </div>
 </template>
 
@@ -32,7 +32,7 @@ export default {
   },
   data() {
     return {
-      cardUserIsShow: true
+      cardUserIsShow: false
     }
   },
   computed: {
@@ -69,9 +69,25 @@ export default {
     },
     cardUserOpen() {
       this.cardUserIsShow = true
+      this.bindClick(this.$refs['shiyu-topNav-user'], this.$refs['shiyu-topNav-cardUser'].$el)
     },
-    cardUserClose() {
-      this.cardUserIsShow = false
+    bindClick(btnEl, el) {
+      const documentHandler = (e) => {
+        if (el.contains(e.target) || btnEl.contains(e.target)) {
+          return false
+        }
+        if (this.cardUserIsShow) {
+          this.cardUserIsShow = false
+          // 解除事件监听
+          document.removeEventListener('click', el.__vueClickOutside__)
+          delete el.__vueClickOutside__
+        }
+      }
+      // 给当前元素绑定个私有变量，方便在unbind中可以解除事件监听
+      if (!el.__vueClickOutside__) {
+        el.__vueClickOutside__ = documentHandler
+        document.addEventListener('click', documentHandler)
+      }
     }
   }
 }
