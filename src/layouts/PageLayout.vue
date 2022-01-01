@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="shiyu-page-container">
+    <div class="shiyu-page-container-blank" />
     <router-view />
   </div>
 </template>
@@ -11,8 +12,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-div{
+.shiyu-page-container{
   width: 100%;
   height: auto;
+  .shiyu-page-container-blank{
+    height: 100px;
+  }
 }
 </style>
