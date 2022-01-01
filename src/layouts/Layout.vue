@@ -82,7 +82,7 @@ export default {
 .shiyu-content{
   width: 100%;
   height: auto;
-  padding: 20px 30px 20px 30px;
+  padding: 0 30px 20px 30px;
   overflow-y: auto;
 }
 </style>

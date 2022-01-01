@@ -65,7 +65,7 @@ export default {
     resetLocation() {
       const userBox = this.$refs['shiyu-topNav-user'].getBoundingClientRect()
       this.$refs['shiyu-topNav-cardUser'].$el.style.right = document.body.offsetWidth - userBox.right - 38 + 'px'
-      this.$refs['shiyu-topNav-cardUser'].$el.style.top = 10 + userBox.height + 'px'
+      this.$refs['shiyu-topNav-cardUser'].$el.style.top = 30 + userBox.height + 'px'
     },
     cardUserOpen() {
       this.cardUserIsShow = true
@@ -96,16 +96,19 @@ export default {
 
 .shiyu-topNav-container{
   position: fixed;
+  margin-left: 30px;
+  padding-top: 20px;
   width: calc(100% - 328px);
   left: auto;
   right: 38px;
   transition: all 0.5s ease;
+  border-radius: 0 0 20px 20px;
+  @include background_color("background_color_base2");
 }
 .shiyu-topNav{
   z-index: 998;
   width: calc(100% - 20px);
   height: 80px;
-  margin-bottom: 20px;
   padding: 0 0 0 20px;
   overflow: hidden;
   @include background_color("background_color_base1");
