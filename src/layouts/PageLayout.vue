@@ -17,7 +17,7 @@ export default {
   height: auto;
   padding: 0 10px 0 10px;
   .shiyu-page-container-blank{
-    height: 100px;
+    height: 120px;
   }
 }
 </style>
