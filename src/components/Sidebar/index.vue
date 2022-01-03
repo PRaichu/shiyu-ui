@@ -28,11 +28,7 @@ export default {
     MenuItem
   },
   props: {
-    homeURL: { type: Object, default: () => ({ name: 'dashboard.home-1' }) },
-    logo: { type: String, default: require('@/assets/logo.png') },
-    horizontal: { type: Boolean, default: false },
-    items: { type: Array, default: () => { return [] } },
-    sidebarGroupTitle: { type: Boolean, default: true }
+    logo: { type: String, default: require('@/assets/logo.png') }
   },
   data() {
     return {
@@ -43,6 +39,10 @@ export default {
       sideBarMenu: 'Config/sideBarMenu',
       sidebarIsOpen: 'Setting/sidebarIsOpen'
     })
+  },
+  watch: {
+    pageRouter(newValue) {
+    }
   },
   mounted() {
     this.sidebarChange()

@@ -5,51 +5,47 @@ import mutations from './mutations'
 const state = {
   sidebarMenu: [
     {
-      title: '个人中心',
+      title: '首页',
       iconClass: 'el-icon-s-shop',
-      link: '',
-      isParent: true,
-      children: [
-        {
-          title: '信息',
-          iconClass: 'bi bi-messenger',
-          link: '/hello',
-          isParent: false
-        },
-        {
-          title: '设置',
-          iconClass: 'bi bi-record',
-          link: '/',
-          isParent: false
-        }
-      ]
+      link: '/',
+      isParent: false
     },
     {
-      title: '个人中心',
+      title: 'Hello',
+      iconClass: 'bi bi-messenger',
+      link: '/hello',
+      isParent: false
+    },
+    {
+      title: 'Page1',
+      iconClass: 'el-icon-s-shop',
+      link: '/page1',
+      isParent: false
+    },
+    {
+      title: '页面2,3,4',
       iconClass: 'bi bi-mailbox2',
       link: '',
       isParent: true,
       children: [
         {
-          title: '信息',
+          title: 'Page2',
           iconClass: 'bi bi-messenger',
-          link: '/hello',
+          link: '/page2',
           isParent: false
         },
         {
-          title: '设置',
+          title: 'Page3',
           iconClass: 'bi bi-record',
-          link: '/',
+          link: '/page3',
+          isParent: false
+        },
+        {
+          title: 'Page4',
+          iconClass: 'bi bi-record',
+          link: '/page4',
           isParent: false
         }
-      ]
-    },
-    {
-      title: '个人中心',
-      iconClass: 'el-icon-s-shop',
-      link: '',
-      isParent: false,
-      children: [
       ]
     }
   ]
