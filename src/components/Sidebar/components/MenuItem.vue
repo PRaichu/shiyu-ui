@@ -6,7 +6,7 @@
           v-shiyu-waves
           class="shiyu-menuitem"
           :class="{'shiyu-menuitem-activated': activated[index],
-                   'shiyu-menuitem-radius': menu.isParent}"
+                   'shiyu-menuitem-radius': menu.isParent && menuOpen}"
           :to="menu.link"
           @click.native="activeMenu(index)"
         >
@@ -14,7 +14,7 @@
             <i :class="menu.iconClass" />
             <span>{{ menu.title }}</span>
           </div>
-          <i v-if="menu.isParent" class="el-icon-arrow-right" :class="{'el-icon-arrow-right-activated': activated[index]}" />
+          <i v-if="menu.isParent" class="el-icon-arrow-right" :class="{'el-icon-arrow-right-activated': activated[index] && menuOpen}" />
         </router-link>
         <div v-if="menu.isParent" ref="shiyu-menuitem-items" class="shiyu-menuitem-items">
           <router-link
@@ -24,7 +24,7 @@
             class="shiyu-menuitem shiyu-no-radius"
             :to="item.link"
           >
-            <div class="shiyu-menuitem-logo shiyu-">
+            <div class="shiyu-menuitem-logo">
               <i :class="item.iconClass" />
               <span>{{ item.title }}</span>
             </div>
@@ -47,7 +47,8 @@ export default {
   },
   data() {
     return {
-      activated: []
+      activated: [],
+      menuOpen: true
     }
   },
   computed: {
@@ -58,10 +59,9 @@ export default {
   watch: {
     $route: {
       handler() {
-        this.initMenu()
+        this.buildMenu(true)
       },
-      deep: true,
-      immediate: true
+      deep: true
     },
     activated: {
       handler(value) {
@@ -82,10 +82,10 @@ export default {
   },
   mounted() {
     this.menuItem.forEach(() => { this.activated.push(false) })
-    this.initMenu()
+    this.buildMenu()
   },
   methods: {
-    initMenu() {
+    buildMenu(isRoute = false) {
       const routePath = this.$route.path
       let index = [-1, -1]
       for (let i = 0; i < this.menuItem.length; i++) {
@@ -102,9 +102,9 @@ export default {
           }
         }
       }
-      this.activeMenu(index[0])
+      this.activeMenu(index[0], isRoute)
     },
-    activeMenu(index) {
+    activeMenu(index, isRoute = false) {
       let oldIndex
       for (let i = 0; i < this.activated.length; i++) {
         if (this.activated[i]) {
@@ -113,8 +113,25 @@ export default {
         }
       }
       if (oldIndex === index) {
-        if (this.menuItem[index].isParent) {
-          this.activated.splice(index, 1, false)
+        if (!this.menuItem[index].isParent || isRoute) {
+          return
+        }
+        let refIndex = 0
+        for (let i = 0; i < this.menuItem.length; i++) {
+          if (i === index) {
+            break
+          }
+          if (this.menuItem[i].isParent) {
+            refIndex++
+          }
+        }
+        if (this.$refs['shiyu-menuitem-items'][refIndex].style.height !== '0px') {
+          this.$refs['shiyu-menuitem-items'][refIndex].style.height = '0px'
+          this.menuOpen = false
+        } else {
+          // 此处根据菜单高度调整 52=height+margin
+          this.$refs['shiyu-menuitem-items'][refIndex].style.height = 52 * this.menuItem[index].children.length + 'px'
+          this.menuOpen = true
         }
       } else {
         this.activated.forEach((item, index) => {
@@ -152,6 +169,7 @@ export default {
   align-items: center;
   align-content: center;
   justify-content: space-between;
+  transition: all 0.5s ease;
   .shiyu-menuitem-logo{
     display: flex;
     align-items: center;
