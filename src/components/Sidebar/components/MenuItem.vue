@@ -56,6 +56,13 @@ export default {
     })
   },
   watch: {
+    $route: {
+      handler() {
+        this.initMenu()
+      },
+      deep: true,
+      immediate: true
+    },
     activated: {
       handler(value) {
         let refIndex = 0
@@ -75,8 +82,28 @@ export default {
   },
   mounted() {
     this.menuItem.forEach(() => { this.activated.push(false) })
+    this.initMenu()
   },
   methods: {
+    initMenu() {
+      const routePath = this.$route.path
+      let index = [-1, -1]
+      for (let i = 0; i < this.menuItem.length; i++) {
+        if (this.menuItem[i].link === routePath) {
+          index[0] = i
+          break
+        }
+        if (this.menuItem[i].isParent) {
+          for (let j = 0; j < this.menuItem[i].children.length; j++) {
+            if (this.menuItem[i].children[j].link === routePath) {
+              index = [i, j]
+              break
+            }
+          }
+        }
+      }
+      this.activeMenu(index[0])
+    },
     activeMenu(index) {
       let oldIndex
       for (let i = 0; i < this.activated.length; i++) {
@@ -86,7 +113,9 @@ export default {
         }
       }
       if (oldIndex === index) {
-        this.activated.splice(index, 1, false)
+        if (this.menuItem[index].isParent) {
+          this.activated.splice(index, 1, false)
+        }
       } else {
         this.activated.forEach((item, index) => {
           if (item) {
