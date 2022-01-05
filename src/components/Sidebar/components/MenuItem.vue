@@ -85,6 +85,7 @@ export default {
     this.buildMenu()
   },
   methods: {
+    // TODO 菜单点击bug，子项菜单选中高亮，activeMenu调用两次
     buildMenu(isRoute = false) {
       const routePath = this.$route.path
       let index = [-1, -1]
