@@ -16,12 +16,17 @@
           </div>
           <i v-if="menu.isParent" class="el-icon-arrow-right" :class="{'el-icon-arrow-right-activated': activated[index] && menuOpen}" />
         </router-link>
-        <div v-if="menu.isParent" ref="shiyu-menuitem-items" class="shiyu-menuitem-items">
+        <div
+          v-if="menu.isParent"
+          ref="shiyu-menuitem-items"
+          class="shiyu-menuitem-items"
+        >
           <router-link
             v-for="(item, menuIndex) in menu.children"
             :key="menuIndex"
             v-shiyu-waves
             class="shiyu-menuitem shiyu-no-radius"
+            :class="{'shiyu-menuitem-items-activated': menuOpen}"
             :to="item.link"
           >
             <div class="shiyu-menuitem-logo">
@@ -60,7 +65,7 @@ export default {
   watch: {
     $route: {
       handler() {
-        this.buildMenu(true)
+        this.buildMenu()
       },
       deep: true
     },
@@ -82,32 +87,56 @@ export default {
     }
   },
   mounted() {
-    this.menuItem.forEach(() => { this.activated.push(false) })
-    this.menuItem.forEach(() => { this.opened.push(false) })
+    this.initMenuData()
     this.buildMenu()
   },
   methods: {
+    initMenuData() {
+      this.initActivatedData()
+      this.menuItem.forEach(() => { this.opened.push(false) })
+    },
+    initActivatedData() {
+      // TODO 2处splice范围待验证
+      this.activated.splice(0, this.activated.length)
+      for (const menu in this.menuItem) {
+        if (menu.isParent) {
+          const child = []
+          menu.children.forEach(() => { child.push(false) })
+          this.activated.push(child)
+        } else {
+          this.activated.push(false)
+        }
+      }
+    },
     // TODO 菜单点击bug，子项菜单选中高亮，activeMenu调用两次
-    buildMenu(isRoute = false) {
+    buildMenu() {
       const routePath = this.$route.path
-      let index = [-1, -1]
+      let menuPosition = [-1, -1]
       for (let i = 0; i < this.menuItem.length; i++) {
         if (this.menuItem[i].link === routePath) {
-          index[0] = i
+          menuPosition[0] = i
           break
-        }
-        if (this.menuItem[i].isParent) {
+        } else if (this.menuItem[i].isParent) {
           for (let j = 0; j < this.menuItem[i].children.length; j++) {
             if (this.menuItem[i].children[j].link === routePath) {
-              index = [i, j]
+              menuPosition = [i, j]
               break
             }
           }
         }
       }
-      this.activeMenu(index[0], isRoute)
+      this.activeMenu(menuPosition)
     },
-    activeMenu(index, isRoute = false) {
+    activeMenu(menuPosition) {
+      this.initActivatedData()
+      if (menuPosition[0] > -1 && menuPosition[1] === -1) {
+        this.activated.splice(menuPosition[0], 1, true)
+      } else if (menuPosition[0] > -1 && menuPosition[1] > -1) {
+        const childActivated = []
+        this.activated[menuPosition[0]].forEach(() => { childActivated.push(false) })
+        childActivated.splice(menuPosition[1], 1, true)
+        this.activated.splice(menuPosition[0], 1, childActivated)
+      }
     },
     openMenu(index) {
       if (!this.menuItem[index].isParent) {
@@ -216,6 +245,9 @@ export default {
   -moz-transition: all 0.5s ease; /* Firefox 4 */
   -webkit-transition: all 0.5s ease; /* Safari and Chrome */
   -o-transition: all 0.5s ease; /* Opera */
+}
+.shiyu-menuitem-items-activated{
+  background-color: #fff;
 }
 .shiyu-no-radius{
   border-radius: 0;
