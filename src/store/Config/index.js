@@ -23,7 +23,7 @@ const state = {
       isParent: false
     },
     {
-      title: '页面2,3,4',
+      title: '页面2,3',
       iconClass: 'bi bi-mailbox2',
       link: '',
       isParent: true,
@@ -39,7 +39,15 @@ const state = {
           iconClass: 'bi bi-record',
           link: '/page3',
           isParent: false
-        },
+        }
+      ]
+    },
+    {
+      title: '页面4',
+      iconClass: 'bi bi-mailbox2',
+      link: '',
+      isParent: true,
+      children: [
         {
           title: 'Page4',
           iconClass: 'bi bi-record',
