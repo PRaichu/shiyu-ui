@@ -5,7 +5,7 @@
         <router-link
           v-shiyu-waves
           class="shiyu-menuitem"
-          :class="{'shiyu-menuitem-activated': activated[index] || opened[index],
+          :class="{'shiyu-menuitem-activated': activatedFlag(index) || opened[index],
                    'shiyu-menuitem-radius': menu.isParent && menuOpen}"
           :to="menu.link"
           @click.native="openMenu(index)"
@@ -14,7 +14,7 @@
             <i :class="menu.iconClass" />
             <span>{{ menu.title }}</span>
           </div>
-          <i v-if="menu.isParent" class="el-icon-arrow-right" :class="{'el-icon-arrow-right-activated': activated[index] && menuOpen}" />
+          <i v-if="menu.isParent" class="el-icon-arrow-right" :class="{'el-icon-arrow-right-activated': activatedFlag(index) && menuOpen}" />
         </router-link>
         <div
           v-if="menu.isParent"
@@ -26,7 +26,7 @@
             :key="menuIndex"
             v-shiyu-waves
             class="shiyu-menuitem shiyu-no-radius"
-            :class="{'shiyu-menuitem-items-activated': menuOpen}"
+            :class="{'shiyu-menuitem-items-activated': childActivatedFlag(index, menuIndex)}"
             :to="item.link"
           >
             <div class="shiyu-menuitem-logo">
@@ -54,7 +54,7 @@ export default {
     return {
       activated: [],
       opened: [],
-      menuOpen: true
+      menuOpen: false
     }
   },
   computed: {
@@ -75,9 +75,11 @@ export default {
         value.forEach((item, index) => {
           if (this.menuItem[index].isParent) {
             this.$refs['shiyu-menuitem-items'][refIndex].style.height = '0px'
-            if (item) {
-              // 此处根据菜单高度调整 52=height+margin
-              this.$refs['shiyu-menuitem-items'][refIndex].style.height = 52 * this.menuItem[index].children.length + 'px'
+            for (const childIndex in this.activated[index]) {
+              if (this.activated[index][childIndex]) {
+                // 此处根据菜单高度调整 52=height+margin
+                this.$refs['shiyu-menuitem-items'][refIndex].style.height = 52 * this.menuItem[index].children.length + 'px'
+              }
             }
             refIndex++
           }
@@ -98,14 +100,33 @@ export default {
     initActivatedData() {
       // TODO 2处splice范围待验证
       this.activated.splice(0, this.activated.length)
-      for (const menu in this.menuItem) {
-        if (menu.isParent) {
+      for (const menuIndex in this.menuItem) {
+        if (this.menuItem[menuIndex].isParent) {
           const child = []
-          menu.children.forEach(() => { child.push(false) })
+          this.menuItem[menuIndex].children.forEach(() => { child.push(false) })
           this.activated.push(child)
         } else {
           this.activated.push(false)
         }
+      }
+    },
+    activatedFlag(index) {
+      if (this.menuItem[index].isParent) {
+        for (const childIndex in this.activated[index]) {
+          if (this.activated[index][childIndex]) {
+            return true
+          }
+        }
+      } else {
+        return this.activated[index]
+      }
+      return false
+    },
+    childActivatedFlag(index, menuIndex) {
+      if (typeof this.activated[index] === 'undefined') {
+        return false
+      } else if (typeof this.activated[index] === 'object') {
+        return this.activated[index][menuIndex]
       }
     },
     // TODO 菜单点击bug，子项菜单选中高亮，activeMenu调用两次
@@ -137,6 +158,7 @@ export default {
         childActivated.splice(menuPosition[1], 1, true)
         this.activated.splice(menuPosition[0], 1, childActivated)
       }
+      this.openMenu(menuPosition[0])
     },
     openMenu(index) {
       if (!this.menuItem[index].isParent) {
@@ -247,7 +269,8 @@ export default {
   -o-transition: all 0.5s ease; /* Opera */
 }
 .shiyu-menuitem-items-activated{
-  background-color: #fff;
+  @include background_color("background_color_elment");
+  @include font_color("font_color_base3");
 }
 .shiyu-no-radius{
   border-radius: 0;
