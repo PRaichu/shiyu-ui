@@ -6,7 +6,7 @@
           v-shiyu-waves
           class="shiyu-menuitem"
           :class="{'shiyu-menuitem-activated': activatedFlag(index) || opened[index],
-                   'shiyu-menuitem-radius': menu.isParent && menuOpen}"
+                   'shiyu-menuitem-radius': menu.isParent && (activatedFlag(index) || opened[index])}"
           :to="menu.link"
           @click.native="openMenu(index)"
         >
@@ -14,7 +14,7 @@
             <i :class="menu.iconClass" />
             <span>{{ menu.title }}</span>
           </div>
-          <i v-if="menu.isParent" class="el-icon-arrow-right" :class="{'el-icon-arrow-right-activated': activatedFlag(index) && menuOpen}" />
+          <i v-if="menu.isParent" class="el-icon-arrow-right" :class="{'el-icon-arrow-right-activated': activatedFlag(index) || opened[index]}" />
         </router-link>
         <div
           v-if="menu.isParent"
@@ -65,7 +65,7 @@ export default {
   watch: {
     $route: {
       handler() {
-        this.buildMenu()
+        this.buildMenu(true)
       },
       deep: true
     },
@@ -73,7 +73,7 @@ export default {
       handler(value) {
         let refIndex = 0
         value.forEach((item, index) => {
-          if (this.menuItem[index].isParent) {
+          if (this.menuItem[index].isParent && !this.opened[index]) {
             this.$refs['shiyu-menuitem-items'][refIndex].style.height = '0px'
             for (const childIndex in this.activated[index]) {
               if (this.activated[index][childIndex]) {
@@ -85,7 +85,8 @@ export default {
           }
         })
       },
-      immediate: true
+      immediate: true,
+      deep: true
     }
   },
   mounted() {
@@ -93,6 +94,24 @@ export default {
     this.buildMenu()
   },
   methods: {
+    buildMenu(isRoute = false) {
+      const routePath = this.$route.path
+      let menuPosition = [-1, -1]
+      for (let i = 0; i < this.menuItem.length; i++) {
+        if (this.menuItem[i].link === routePath) {
+          menuPosition[0] = i
+          break
+        } else if (this.menuItem[i].isParent) {
+          for (let j = 0; j < this.menuItem[i].children.length; j++) {
+            if (this.menuItem[i].children[j].link === routePath) {
+              menuPosition = [i, j]
+              break
+            }
+          }
+        }
+      }
+      this.activeMenu(menuPosition, isRoute)
+    },
     initMenuData() {
       this.initActivatedData()
       this.menuItem.forEach(() => { this.opened.push(false) })
@@ -129,26 +148,7 @@ export default {
         return this.activated[index][menuIndex]
       }
     },
-    // TODO 菜单点击bug，子项菜单选中高亮，activeMenu调用两次
-    buildMenu() {
-      const routePath = this.$route.path
-      let menuPosition = [-1, -1]
-      for (let i = 0; i < this.menuItem.length; i++) {
-        if (this.menuItem[i].link === routePath) {
-          menuPosition[0] = i
-          break
-        } else if (this.menuItem[i].isParent) {
-          for (let j = 0; j < this.menuItem[i].children.length; j++) {
-            if (this.menuItem[i].children[j].link === routePath) {
-              menuPosition = [i, j]
-              break
-            }
-          }
-        }
-      }
-      this.activeMenu(menuPosition)
-    },
-    activeMenu(menuPosition) {
+    activeMenu(menuPosition, isRoute = false) {
       this.initActivatedData()
       if (menuPosition[0] > -1 && menuPosition[1] === -1) {
         this.activated.splice(menuPosition[0], 1, true)
@@ -158,10 +158,14 @@ export default {
         childActivated.splice(menuPosition[1], 1, true)
         this.activated.splice(menuPosition[0], 1, childActivated)
       }
-      this.openMenu(menuPosition[0])
+      if (!isRoute && menuPosition[1] === -1) {
+        this.openMenu(menuPosition[0])
+      } else if (isRoute && menuPosition[1] > -1) {
+        this.openMenu(menuPosition[0])
+      }
     },
     openMenu(index) {
-      if (!this.menuItem[index].isParent) {
+      if (!this.menuItem[index].isParent && this.opened[index]) {
         return
       }
       this.opened.splice(index, 1, !this.opened[index])
