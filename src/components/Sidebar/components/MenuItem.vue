@@ -165,7 +165,7 @@ export default {
       }
     },
     openMenu(index) {
-      if (!this.menuItem[index].isParent && this.opened[index]) {
+      if (!this.menuItem[index].isParent) {
         return
       }
       this.opened.splice(index, 1, !this.opened[index])
